@@ -1,0 +1,22 @@
+function init(self)
+	math.randomseed(os.time())
+	self.zombies = {}
+	for i=1,200 do
+		local x = math.random(1, 800)
+		local y = math.random(1, 480)
+		local p = vmath.vector3(x, y, 0)
+		local id = factory.create("#factory", p)
+		self.zombies[#self.zombies + 1] = id
+	end
+end
+
+function update(self, dt)
+	local pp = go.get_position("/player/player")
+	for i=1,#self.zombies do
+		local id = self.zombies[i]
+		local zp = go.get_position(id)
+		local dir = vmath.normalize(pp - zp)
+		zp = zp + dir * 10 * dt
+		go.set_position(zp, id)
+	end
+end

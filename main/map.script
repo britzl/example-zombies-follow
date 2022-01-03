@@ -1,0 +1,13 @@
+local COLLISION = hash("contact_point_response")
+local ZOMBIE = hash("zombie")
+local PLAYER = hash("player")
+
+function on_message(self, message_id, message, sender)
+	if message_id == COLLISION then
+		if message.group == ZOMBIE or message.group == PLAYER then
+			local pos = go.get_position(message.other_id)
+			pos = pos - message.normal * message.distance
+			go.set_position(pos, message.other_id)
+		end
+	end
+end
